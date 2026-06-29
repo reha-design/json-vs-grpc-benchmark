@@ -1,10 +1,13 @@
 # Multi-Language HTTP/2 TLS and gRPC Benchmark
 
+> [!WARNING]
+> **참고**: 본 저장소의 코드는 학습 및 벤치마크 실습 과정에서 커스텀 작성된 코드로, 공식 도서 예제나 타 벤치마크의 기본 구현 사양과 다를 수 있습니다.
+
 This project benchmarks **JSON REST API (GET/POST/QUERY)** and **gRPC (Protobuf)** performance over **HTTP/2 TLS** across 4 platforms:
 * **Bun** (Elysia.js)
 * **Go** (Native / Gin)
 * **Python** (FastAPI with Uvicorn/h2)
-* **Kotlin** (Spring Boot 3.2+ with JDK 25 Virtual Threads ⚡)
+* **Kotlin** (Spring Boot 3.2+ with JDK 25 Virtual Threads)
 
 ---
 
