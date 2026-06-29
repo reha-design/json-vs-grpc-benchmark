@@ -26,6 +26,8 @@ const platforms: PlatformConfig[] = [
   { name: "Go", framework: "Go Gin", jsonBase: "https://localhost:3004", grpcPort: 50052 },
   { name: "Python", framework: "FastAPI", jsonBase: "https://localhost:3002", grpcPort: 50053 },
   { name: "Kotlin", framework: "Spring Boot", jsonBase: "https://localhost:3003", grpcPort: 50054 },
+  { name: "Node.js", framework: "Express", jsonBase: "https://localhost:3005", grpcPort: 50055 },
+  { name: "Node.js", framework: "Fastify", jsonBase: "https://localhost:3006", grpcPort: 50055 },
 ];
 
 interface BenchResult {
