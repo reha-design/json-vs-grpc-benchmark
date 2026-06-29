@@ -1,0 +1,26 @@
+{
+  "name": "json-vs-grpc-benchmark",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start:json": "bun run src/json-server.ts",
+    "start:grpc": "bun run src/grpc-server.ts",
+    "start:go": "go-app/server.exe",
+    "start:py": "cd python-app && uv run app.py",
+    "start:kotlin": "cd kotlin-app && gradlew.bat bootRun",
+    "bench": "bun run bench/benchmark.ts",
+    "cert": "bun run scripts/gen-cert.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.14.4",
+    "@grpc/proto-loader": "^0.8.1",
+    "elysia": "^1.4.29"
+  }
+}

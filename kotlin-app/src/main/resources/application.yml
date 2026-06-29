@@ -1,0 +1,29 @@
+server:
+  port: 3003
+  http2:
+    enabled: true
+  ssl:
+    enabled: true
+    certificate: "file:../certs/localhost.pem"
+    certificate-private-key: "file:../certs/localhost-key.pem"
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+
+grpc:
+  server:
+    port: 50054
+    security:
+      enabled: true
+      certificateChain: "file:../certs/localhost.pem"
+      privateKey: "file:../certs/localhost-key.pem"
+      trustCertCollection: "file:../certs/rootCA.pem"
+      clientAuth: NONE
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    net.devh.boot.grpc.server: INFO

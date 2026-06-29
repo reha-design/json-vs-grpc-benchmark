@@ -1,0 +1,40 @@
+# Gradle & Java
+.gradle/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+bin/
+out/
+
+# IDEs
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.settings/
+.classpath
+.project
+
+# Node & Bun
+node_modules/
+bun.lock
+bun.lockb
+.env
+.agents/
+
+# Go
+go-app/server.exe
+
+# Python (uv)
+python-app/.venv/
+python-app/__pycache__/
+*.pyc
+
+# Local Certificates (Security)
+certs/
+
+# Kotlin
+.kotlin/
+kotlin-app/.gradle/
+kotlin-app/build/
+kotlin-app/out/

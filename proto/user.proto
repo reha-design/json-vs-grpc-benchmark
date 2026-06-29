@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "./user";
+
+// 빈 요청
+message Empty {}
+
+// 사용자 ID 요청
+message UserIdRequest {
+  int32 id = 1;
+}
+
+// 검색 조건
+message SearchRequest {
+  string name = 1;
+  int32 min_age = 2;
+  int32 max_age = 3;
+  string department = 4;
+}
+
+// 사용자 정보
+message User {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+  int32 age = 4;
+  string address = 5;
+  string phone = 6;
+  string department = 7;
+  string role = 8;
+  double salary = 9;
+  bool is_active = 10;
+  string joined_date = 11;
+  repeated string skills = 12;
+}
+
+// 사용자 목록
+message UserList {
+  repeated User users = 1;
+}
+
+// 사용자 서비스
+service UserService {
+  // 단일 사용자 조회
+  rpc GetUser (UserIdRequest) returns (User);
+  // 전체 사용자 목록 조회
+  rpc GetUsers (Empty) returns (UserList);
+  // 조건 검색
+  rpc SearchUsers (SearchRequest) returns (UserList);
+}

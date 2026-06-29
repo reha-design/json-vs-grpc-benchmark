@@ -1,0 +1,14 @@
+[project]
+name = "python-app"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "cryptography>=49.0.0",
+    "fastapi>=0.138.1",
+    "grpcio>=1.81.1",
+    "grpcio-tools>=1.81.1",
+    "h2>=4.3.0",
+    "uvicorn[standard]>=0.49.0",
+]
