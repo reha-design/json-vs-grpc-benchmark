@@ -3,9 +3,10 @@
 > [!WARNING]
 > **참고**: 본 저장소의 코드는 학습 및 벤치마크 실습 과정에서 커스텀 작성된 코드로, 공식 도서 예제나 타 벤치마크의 기본 구현 사양과 다를 수 있습니다.
 
-This project benchmarks **JSON REST API (GET/POST/QUERY)** and **gRPC (Protobuf)** performance over **HTTP/2 TLS** across 4 platforms:
+This project benchmarks **JSON REST API (GET/POST/QUERY)** and **gRPC (Protobuf)** performance over **HTTP/2 TLS** across 5 platforms:
 * **Bun** (Elysia.js)
 * **Go** (Native / Gin)
+* **Node.js** (Express / Fastify)
 * **Python** (FastAPI with Uvicorn/h2)
 * **Kotlin** (Spring Boot 3.2+ with JDK 25 Virtual Threads)
 
@@ -17,6 +18,7 @@ Ensure you have the following installed on your machine:
 * [Go](https://go.dev/) (v1.24+ or v1.25+)
 * [Python](https://www.python.org/) (v3.12+) & [uv](https://github.com/astral-sh/uv)
 * [Java JDK 25](https://adoptium.net/temurin/releases/) (or JDK 21+)
+* [Node.js](https://nodejs.org/) (v20+)
 
 ---
 
@@ -72,6 +74,9 @@ bun run start:py
 
 # 4. Kotlin Spring Boot Server (JSON: 3003, gRPC: 50054)
 bun run start:kotlin
+
+# 5. Node.js Servers (Express: 3005, Fastify: 3006, gRPC: 50055)
+bun run start:node
 ```
 
 ---
