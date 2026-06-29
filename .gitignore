@@ -38,3 +38,11 @@ certs/
 kotlin-app/.gradle/
 kotlin-app/build/
 kotlin-app/out/
+
+# Benchmark result files (local only)
+bench_result*.txt
+bench_result*.log
+bench_result*.json
+
+# Blog post (local draft, not for VCS)
+docs/blog_post.md
