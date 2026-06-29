@@ -8,41 +8,56 @@
 * **Kotlin**: JDK 25 및 Spring Boot 3.4.0 가상 스레드 기본화 적용. JVM target은 `21` 사양 빌드.
 * **Node.js**: Node 20+ 환경에서 Express, Fastify, 및 gRPC 서버 가동.
 
-| 언어 | 프레임워크 | 시나리오 | 프로토콜 | 평균 응답속도 (Avg) | 중앙값 (Med) | P95 | RPS (처리량) |
-| :--- | :--- | :--- | :--- | :---: | :---: | :---: | :---: |
-| **Bun** | Elysia.js | **단일 조회** | HTTP/2 GET | **0.09 ms** | 0.07 ms | 0.19 ms | **10,599** |
-| | | | gRPC | 0.40 ms | 0.33 ms | 0.68 ms | 2,522 |
-| **Go** | Go Native | | HTTP/2 GET | **0.09 ms** | 0.07 ms | 0.19 ms | **10,599** |
-| | | | gRPC | 0.26 ms | 0.22 ms | 0.43 ms | 3,838 |
-| **Go** | Go Gin | | HTTP/2 GET | 0.12 ms | 0.08 ms | 0.18 ms | 8,425 |
-| **Node.js**| Fastify | | HTTP/2 GET | **0.26 ms** | 0.23 ms | 0.33 ms | **3,899** |
-| **Node.js**| Express | | HTTP/2 GET | 0.25 ms | 0.22 ms | 0.38 ms | 3,963 |
-| | | | gRPC | 0.57 ms | 0.54 ms | 0.83 ms | 1,753 |
-| **Python**| FastAPI | | HTTP/2 GET | 0.58 ms | 0.52 ms | 0.96 ms | 1,722 |
-| | | | gRPC | 0.36 ms | 0.33 ms | 0.56 ms | 2,778 |
-| **Kotlin**| Spring Boot | | HTTP/2 GET | 1.00 ms | 0.79 ms | 1.87 ms | 996 |
-| | | | gRPC | 1.00 ms | 0.84 ms | 2.32 ms | 996 |
-| ──────────────── | ─────────────────── | ──────────────── | ─────────────── | ─────────── | ─────────── | ─────────── | ─────────── |
-| **Bun** | Elysia.js | **전체 목록 (대량)** | HTTP/2 GET | **0.32 ms** | 0.28 ms | 0.64 ms | **3,096** |
-| | | | gRPC | 0.66 ms | 0.56 ms | 1.19 ms | 1,509 |
-| **Go** | Go Native | | HTTP/2 GET | **0.33 ms** | 0.28 ms | 0.55 ms | **3,015** |
-| | | | gRPC | 0.51 ms | 0.38 ms | 1.03 ms | 1,955 |
-| **Go** | Go Gin | | HTTP/2 GET | 0.35 ms | 0.30 ms | 0.65 ms | 2,863 |
-| **Node.js**| Fastify | | HTTP/2 GET | **0.65 ms** | 0.63 ms | 0.88 ms | **1,545** |
-| **Node.js**| Express | | HTTP/2 GET | 0.68 ms | 0.63 ms | 1.00 ms | 1,476 |
-| | | | gRPC | 1.00 ms | 0.97 ms | 1.58 ms | 997 |
-| **Kotlin**| Spring Boot | | HTTP/2 GET | 1.62 ms | 1.41 ms | 2.66 ms | 618 |
-| | | | gRPC | 1.12 ms | 0.89 ms | 2.06 ms | 892 |
-| **Python**| FastAPI | | HTTP/2 GET | 2.59 ms | 2.40 ms | 3.73 ms | 386 |
-| | | | gRPC | 0.85 ms | 0.76 ms | 1.28 ms | 1,178 |
-| ──────────────── | ─────────────────── | ──────────────── | ─────────────── | ─────────── | ─────────── | ─────────── | ─────────── |
-| **Bun** | Elysia.js | **검색 (QUERY)** | HTTP/2 QUERY | **0.12 ms** | 0.09 ms | 0.23 ms | **8,669** |
-| **Go** | Go Native | | HTTP/2 QUERY | **0.11 ms** | 0.10 ms | 0.20 ms | **8,925** |
-| **Go** | Go Gin | | HTTP/2 QUERY | 0.11 ms | 0.08 ms | 0.20 ms | 9,407 |
-| **Node.js**| Fastify | | HTTP/2 QUERY | **0.28 ms** | 0.26 ms | 0.36 ms | **3,573** |
-| **Node.js**| Express | | HTTP/2 QUERY | 0.30 ms | 0.30 ms | 0.41 ms | 3,349 |
-| **Kotlin**| Spring Boot | | HTTP/2 QUERY | 0.54 ms | 0.39 ms | 0.91 ms | 1,862 |
-| **Python**| FastAPI | | HTTP/2 QUERY | 0.60 ms | 0.56 ms | 1.04 ms | 1,659 |
+| 언어 | 프레임워크 | 시나리오 | 프로토콜 | 평균 지연(Avg) | RPS (초당 처리량) |
+| :--- | :--- | :--- | :--- | :---: | :---: |
+| **Bun** | Elysia.js | **단일 조회** | HTTP/2 GET | **0.07 ms** | **13,394** |
+| | | | gRPC | 0.42 ms | 2,405 |
+| **Go** | Go Native | | HTTP/2 GET | **0.09 ms** | **11,302** |
+| | | | gRPC | 0.26 ms | 3,907 |
+| **Go** | Go Gin | | HTTP/2 GET | 0.09 ms | 11,056 |
+| **Node.js**| Fastify | | HTTP/2 GET | **0.11 ms** | **9,090** |
+| **Node.js**| Express | | HTTP/2 GET | 0.16 ms | 6,090 |
+| | | | gRPC | 0.28 ms | 3,569 |
+| **Python**| FastAPI | | HTTP/2 GET | 0.63 ms | 1,594 |
+| | | | gRPC | 0.36 ms | 2,784 |
+| **Kotlin**| Spring Boot | | HTTP/2 GET | 0.96 ms | 1,045 |
+| | | | gRPC | 0.73 ms | 1,365 |
+| ──────────────── | ─────────────────── | ──────────────── | ─────────────── | ─────────── | ─────────── |
+| **Bun** | Elysia.js | **전체 목록 (대량)** | HTTP/2 GET | **0.31 ms** | **3,232** |
+| | | | gRPC | 0.69 ms | 1,441 |
+| **Go** | Go Native | | HTTP/2 GET | **0.34 ms** | **2,930** |
+| | | | gRPC | 0.41 ms | 2,435 |
+| **Go** | Go Gin | | HTTP/2 GET | 0.36 ms | 2,812 |
+| **Node.js**| Fastify | | HTTP/2 GET | **0.39 ms** | **2,559** |
+| **Node.js**| Express | | HTTP/2 GET | 0.40 ms | 2,496 |
+| | | | gRPC | 0.63 ms | 1,599 |
+| **Kotlin**| Spring Boot | | HTTP/2 GET | 1.47 ms | 682 |
+| | | | gRPC | 0.86 ms | 1,162 |
+| **Python**| FastAPI | | HTTP/2 GET | 2.42 ms | 414 |
+| | | | gRPC | 0.91 ms | 1,094 |
+| ──────────────── | ─────────────────── | ──────────────── | ─────────────── | ─────────── | ─────────── |
+| **Bun** | Elysia.js | **검색 (QUERY)** | HTTP/2 QUERY | **0.11 ms** | **8,727** |
+| **Go** | Go Native | | HTTP/2 QUERY | **0.10 ms** | **9,845** |
+| **Go** | Go Gin | | HTTP/2 QUERY | 0.10 ms | 9,962 |
+| **Node.js**| Fastify | | HTTP/2 QUERY | **0.14 ms** | **7,383** |
+| **Node.js**| Express | | HTTP/2 QUERY | 0.18 ms | 5,613 |
+| **Kotlin**| Spring Boot | | HTTP/2 QUERY | 0.50 ms | 1,990 |
+| **Python**| FastAPI | | HTTP/2 QUERY | 0.65 ms | 1,536 |
+
+### ☕ Kotlin Spring Boot 버전별 성능 대조군 히스토리 (Java 25 가상 스레드 환경)
+
+| Spring Boot 버전 | 시나리오 | 프로토콜 | 평균 응답속도 (Avg) | RPS (초당 처리량) |
+| :--- | :--- | :--- | :---: | :---: |
+| **Boot 3.2.3** | **단일 조회** | HTTP/2 GET | **0.35 ms** | **2,836** |
+| | | gRPC | **0.31 ms** | **3,233** |
+| **Boot 3.4.0** | | HTTP/2 GET | 1.00 ms | 996 |
+| | | gRPC | 1.00 ms | 996 |
+| **Boot 3.2.3** | **전체 목록** | HTTP/2 GET | **1.22 ms** | **817** |
+| | | gRPC | **0.73 ms** | **1,378** |
+| **Boot 3.4.0** | | HTTP/2 GET | 1.62 ms | 618 |
+| | | gRPC | 1.12 ms | 892 |
+| **Boot 3.2.3** | **검색 (QUERY)** | HTTP/2 QUERY | **0.48 ms** | **2,070** |
+| **Boot 3.4.0** | | HTTP/2 QUERY | 0.54 ms | 1,862 |
 
 ---
 

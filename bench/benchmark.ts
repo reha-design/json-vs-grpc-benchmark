@@ -286,6 +286,13 @@ async function main() {
 
   console.log(separator);
   console.log("\n✅ 모든 벤치마크 완료!\n");
+
+  // ADDED: Dump results to JSON file
+  const fs = require("fs");
+  let existing = [];
+  try { existing = JSON.parse(fs.readFileSync("bench_results_dump.json", "utf-8")); } catch(e){}
+  const merged = existing.concat(results);
+  fs.writeFileSync("bench_results_dump.json", JSON.stringify(merged, null, 2));
 }
 
 function formatBytes(bytes: number): string {
