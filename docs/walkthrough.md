@@ -1,48 +1,48 @@
-# Walkthrough: 다중 언어 JSON vs gRPC 성능 비교 (Node.js 추가 및 Java 25 갱신)
+# Walkthrough: 다중 언어 JSON vs gRPC 성능 비교 (Node.js 추가 및 Java 25 / Spring Boot 3.4.0 갱신)
 
 본 실습에서는 **Bun(Elysia.js)**, **Go(Native & Gin)**, **Python(FastAPI)**, **Node.js(Express & Fastify)** 및 **Kotlin(Spring Boot)** 5대 플랫폼에서 HTTP/2 TLS 기반 JSON 및 gRPC의 최종 성능을 비교 측정하였습니다.
 
 ---
 
 ## 📊 종합 벤치마크 결과 테이블 (반복 200회, 웜업 20회)
-* **Kotlin**: JDK 25 및 `spring.threads.virtual.enabled: true` 적용. JVM target은 `21` 사양 빌드.
+* **Kotlin**: JDK 25 및 Spring Boot 3.4.0 가상 스레드 기본화 적용. JVM target은 `21` 사양 빌드.
 * **Node.js**: Node 20+ 환경에서 Express, Fastify, 및 gRPC 서버 가동.
 
 | 언어 | 프레임워크 | 시나리오 | 프로토콜 | 평균 응답속도 (Avg) | 중앙값 (Med) | P95 | RPS (처리량) |
 | :--- | :--- | :--- | :--- | :---: | :---: | :---: | :---: |
-| **Bun** | Elysia.js | **단일 조회** | HTTP/2 GET | **0.08 ms** | 0.06 ms | 0.19 ms | **12,070** |
-| | | | gRPC | 0.37 ms | 0.31 ms | 0.70 ms | 2,694 |
-| **Go** | Go Native | | HTTP/2 GET | **0.07 ms** | 0.07 ms | 0.10 ms | **13,717** |
-| | | | gRPC | 0.26 ms | 0.24 ms | 0.37 ms | 3,826 |
-| **Go** | Go Gin | | HTTP/2 GET | 0.09 ms | 0.08 ms | 0.12 ms | 11,403 |
-| **Node.js**| Fastify | | HTTP/2 GET | **0.14 ms** | 0.13 ms | 0.22 ms | **7,364** |
-| **Node.js**| Express | | HTTP/2 GET | 0.16 ms | 0.15 ms | 0.26 ms | 6,207 |
-| | | | gRPC | 0.29 ms | 0.26 ms | 0.41 ms | 3,425 |
-| **Python**| FastAPI | | HTTP/2 GET | 0.56 ms | 0.53 ms | 0.84 ms | 1,786 |
-| | | | gRPC | 0.35 ms | 0.33 ms | 0.56 ms | 2,860 |
-| **Kotlin**| Spring Boot | | HTTP/2 GET | 0.36 ms | 0.30 ms | 0.47 ms | 2,768 |
-| | | | gRPC | 0.28 ms | 0.25 ms | 0.40 ms | 3,610 |
+| **Bun** | Elysia.js | **단일 조회** | HTTP/2 GET | **0.09 ms** | 0.07 ms | 0.19 ms | **10,599** |
+| | | | gRPC | 0.40 ms | 0.33 ms | 0.68 ms | 2,522 |
+| **Go** | Go Native | | HTTP/2 GET | **0.09 ms** | 0.07 ms | 0.19 ms | **10,599** |
+| | | | gRPC | 0.26 ms | 0.22 ms | 0.43 ms | 3,838 |
+| **Go** | Go Gin | | HTTP/2 GET | 0.12 ms | 0.08 ms | 0.18 ms | 8,425 |
+| **Node.js**| Fastify | | HTTP/2 GET | **0.26 ms** | 0.23 ms | 0.33 ms | **3,899** |
+| **Node.js**| Express | | HTTP/2 GET | 0.25 ms | 0.22 ms | 0.38 ms | 3,963 |
+| | | | gRPC | 0.57 ms | 0.54 ms | 0.83 ms | 1,753 |
+| **Python**| FastAPI | | HTTP/2 GET | 0.58 ms | 0.52 ms | 0.96 ms | 1,722 |
+| | | | gRPC | 0.36 ms | 0.33 ms | 0.56 ms | 2,778 |
+| **Kotlin**| Spring Boot | | HTTP/2 GET | 1.00 ms | 0.79 ms | 1.87 ms | 996 |
+| | | | gRPC | 1.00 ms | 0.84 ms | 2.32 ms | 996 |
 | ──────────────── | ─────────────────── | ──────────────── | ─────────────── | ─────────── | ─────────── | ─────────── | ─────────── |
-| **Bun** | Elysia.js | **전체 목록 (대량)** | HTTP/2 GET | **0.30 ms** | 0.29 ms | 0.45 ms | **3,286** |
-| | | | gRPC | 0.63 ms | 0.56 ms | 1.17 ms | 1,589 |
-| **Go** | Go Native | | HTTP/2 GET | **0.30 ms** | 0.27 ms | 0.36 ms | **3,350** |
-| | | | gRPC | 0.42 ms | 0.39 ms | 0.54 ms | 2,398 |
-| **Go** | Go Gin | | HTTP/2 GET | 0.31 ms | 0.30 ms | 0.47 ms | 3,202 |
-| **Node.js**| Fastify | | HTTP/2 GET | **0.36 ms** | 0.34 ms | 0.42 ms | **2,785** |
-| **Node.js**| Express | | HTTP/2 GET | 0.39 ms | 0.37 ms | 0.51 ms | 2,549 |
-| | | | gRPC | 0.58 ms | 0.51 ms | 0.89 ms | 1,713 |
-| **Kotlin**| Spring Boot | | HTTP/2 GET | 1.19 ms | 1.09 ms | 1.59 ms | 838 |
-| | | | gRPC | 0.63 ms | 0.57 ms | 0.98 ms | 1,588 |
-| **Python**| FastAPI | | HTTP/2 GET | 2.49 ms | 2.30 ms | 3.53 ms | 402 |
-| | | | gRPC | 0.90 ms | 0.80 ms | 1.59 ms | 1,114 |
+| **Bun** | Elysia.js | **전체 목록 (대량)** | HTTP/2 GET | **0.32 ms** | 0.28 ms | 0.64 ms | **3,096** |
+| | | | gRPC | 0.66 ms | 0.56 ms | 1.19 ms | 1,509 |
+| **Go** | Go Native | | HTTP/2 GET | **0.33 ms** | 0.28 ms | 0.55 ms | **3,015** |
+| | | | gRPC | 0.51 ms | 0.38 ms | 1.03 ms | 1,955 |
+| **Go** | Go Gin | | HTTP/2 GET | 0.35 ms | 0.30 ms | 0.65 ms | 2,863 |
+| **Node.js**| Fastify | | HTTP/2 GET | **0.65 ms** | 0.63 ms | 0.88 ms | **1,545** |
+| **Node.js**| Express | | HTTP/2 GET | 0.68 ms | 0.63 ms | 1.00 ms | 1,476 |
+| | | | gRPC | 1.00 ms | 0.97 ms | 1.58 ms | 997 |
+| **Kotlin**| Spring Boot | | HTTP/2 GET | 1.62 ms | 1.41 ms | 2.66 ms | 618 |
+| | | | gRPC | 1.12 ms | 0.89 ms | 2.06 ms | 892 |
+| **Python**| FastAPI | | HTTP/2 GET | 2.59 ms | 2.40 ms | 3.73 ms | 386 |
+| | | | gRPC | 0.85 ms | 0.76 ms | 1.28 ms | 1,178 |
 | ──────────────── | ─────────────────── | ──────────────── | ─────────────── | ─────────── | ─────────── | ─────────── | ─────────── |
-| **Bun** | Elysia.js | **검색 (QUERY)** | HTTP/2 QUERY | **0.10 ms** | 0.10 ms | 0.14 ms | **9,625** |
-| **Go** | Go Native | | HTTP/2 QUERY | **0.10 ms** | 0.10 ms | 0.15 ms | **9,685** |
-| **Go** | Go Gin | | HTTP/2 QUERY | 0.09 ms | 0.08 ms | 0.13 ms | 11,211 |
-| **Node.js**| Fastify | | HTTP/2 QUERY | **0.16 ms** | 0.14 ms | 0.23 ms | **6,418** |
-| **Node.js**| Express | | HTTP/2 QUERY | 0.18 ms | 0.18 ms | 0.28 ms | 5,439 |
-| **Kotlin**| Spring Boot | | HTTP/2 QUERY | 0.47 ms | 0.35 ms | 0.57 ms | 2,116 |
-| **Python**| FastAPI | | HTTP/2 QUERY | 0.59 ms | 0.54 ms | 0.94 ms | 1,691 |
+| **Bun** | Elysia.js | **검색 (QUERY)** | HTTP/2 QUERY | **0.12 ms** | 0.09 ms | 0.23 ms | **8,669** |
+| **Go** | Go Native | | HTTP/2 QUERY | **0.11 ms** | 0.10 ms | 0.20 ms | **8,925** |
+| **Go** | Go Gin | | HTTP/2 QUERY | 0.11 ms | 0.08 ms | 0.20 ms | 9,407 |
+| **Node.js**| Fastify | | HTTP/2 QUERY | **0.28 ms** | 0.26 ms | 0.36 ms | **3,573** |
+| **Node.js**| Express | | HTTP/2 QUERY | 0.30 ms | 0.30 ms | 0.41 ms | 3,349 |
+| **Kotlin**| Spring Boot | | HTTP/2 QUERY | 0.54 ms | 0.39 ms | 0.91 ms | 1,862 |
+| **Python**| FastAPI | | HTTP/2 QUERY | 0.60 ms | 0.56 ms | 1.04 ms | 1,659 |
 
 ---
 
@@ -56,7 +56,7 @@ graph TD
     Client -->|"JSON :3001 / gRPC :50052"| GoNat["Go (Native)"]
     Client -->|"JSON :3004 / gRPC :50052"| GoGin["Go (Gin)"]
     Client -->|"JSON :3002 / gRPC :50053"| Py["Python (FastAPI)"]
-    Client -->|"JSON :3003 / gRPC :50054"| Kot["Kotlin (Spring Boot)"]
+    Client -->|"JSON :3003 / gRPC :50054"| Kot["Kotlin (Spring Boot 3.4.0)"]
     Client -->|"JSON :3005 / gRPC :50055"| Express["Node.js (Express)"]
     Client -->|"JSON :3006 / gRPC :50055"| Fastify["Node.js (Fastify)"]
 
