@@ -83,3 +83,10 @@ Run the benchmarking orchestration script to compare Avg latency, Median, P95/P9
 ```bash
 bun run bench
 ```
+
+---
+
+## 📄 Benchmark Reports
+* [Benchmark Performance Report](./docs/report.md) - 정량적 성능 지표 분석 및 아키텍처 가이드 보고서
+* [Walkthrough & Java 25 Evolution](./docs/walkthrough.md) - 전체 벤치마크 지표 테이블 및 Java 25 최적화 이점 해설
+
